@@ -1,0 +1,22 @@
+[servers]
+ubuntu1a ansible_ssh_user=ansible ansible_ssh_pass=ansible ansible_become=true ansible_become_method=sudo ansible_sudo_pass=ansible
+ubuntu1b ansible_ssh_user=ansible ansible_ssh_pass=ansible ansible_become=true ansible_become_method=sudo ansible_sudo_pass=ansible
+
+[servers:vars]
+ansible_ssh_user=ansible 
+ansible_ssh_pass=ansible 
+ansible_become=true 
+ansible_become_method=sudo 
+ansible_sudo_pass=ansible
+
+[bigips]
+bigip1a tier=1
+bigip1b tier=2 
+
+[bigips:vars]
+ansible_python_interpreter=python 
+ansible_ssh_user=root 
+ansible_ssh_pass=f5trn1
+
+[controller]
+jump1 ansible_connection=local

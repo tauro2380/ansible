@@ -1,0 +1,16 @@
+---
+- name: Play 1 - ping all hosts
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Task 1 - ping each host
+    ping:
+
+- name: Play2 - run apt update on the servers
+  hosts: servers
+  gather_facts: false
+  become: true
+  tasks:
+  - name: Task 1 - run apt update for each server
+    apt:
+      update_cache: true

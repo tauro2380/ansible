@@ -1,0 +1,9 @@
+---
+- name: Play 1 - List the hosts in the inventory file 
+  hosts: bigips
+  gather_facts: false
+  tasks:
+  - name: Task 1 - print hostname (repeat for each host)
+    debug:
+      msg: Host {{ inventory_hostname }} is in the tier {{ tier }}
+

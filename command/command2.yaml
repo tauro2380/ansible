@@ -1,0 +1,11 @@
+---
+- name: Play 1 - get date from all hosts
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Task 1 - get date from each host
+    command: date
+    register: results
+  - name: Task 2 - print date for each host
+    debug:
+     var: results 

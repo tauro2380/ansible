@@ -1,0 +1,16 @@
+---
+- name: Play 1 - gather and show facts for the hosts in the inventory file
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Task 1 - copy custom fact script to remote host
+    copy:
+      src: ~/facts/get_version.fact
+      dest: ~/
+      mode: 0755
+  - name: Task 2 - gather facts
+    setup:
+      fact_path: ~/
+  - name: task 3 - show version
+    debug:
+      var: ansible_local

@@ -1,0 +1,8 @@
+---
+- name: Play 1 - List the hosts in the inventory file 
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Task 1 - print hostname (repeat for each host)
+    debug:
+      var: inventory_hostname

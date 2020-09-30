@@ -1,0 +1,71 @@
+---
+- name: Onboard big-ip
+  hosts: bigip1a
+  gather_facts: false
+  connection: local
+  vars:
+    provider:
+      server: "{{ inventory_hostname }}.f5trn.com"
+      user: "{{ admin_user }}"
+      password: "{{ admin_default_password }}"
+      validate_certs: false
+
+  tasks:
+  - name: Set timezone and NTP serverr
+    bigip_device_ntp:
+      timezone: America/Los_Angeles
+      ntp_servers: 
+      - pool.ntp.org
+      provider: "{{ provider }}"
+  - name: set hostname
+    bigip_hostname:
+      hostname: "{{ inventory_hostname }}.f5trn.com"
+      provider: "{{ provider }}"
+  - name: set DNS
+    bigip_device_dns:
+      name_servers:
+      - 10.10.1.2 
+      search:
+      - f5trn.com
+      provider: "{{ provider }}"
+  - name: Create External VLAN
+    bigip_vlan:
+      name: external.vlan
+      untagged_interface: 1.2
+      tag: 4093
+      provider: "{{ provider }}"
+  - name: Create External SELFIP
+    bigip_selfip:
+      name: external.self
+      vlan: external.vlan
+      address: "{{ ext_ip }}"
+      netmask: "{{ ext_mask }}"
+      allow_service: none
+      provider: "{{ provider }}"
+  - name: Create Internal VLAN
+    bigip_vlan:
+      name: internal.vlan
+      untagged_interface: 1.1
+      tag: 4094
+      provider: "{{ provider }}"
+  - name: Create Internal SELFIP
+    bigip_selfip:
+      name: internal.self
+      vlan: internal.vlan
+      address: "{{ int_ip }}"
+      netmask: "{{ int_mask }}"
+      allow_service: none
+      provider: "{{ provider }}"
+  - name: Save sys config
+    bigip_config:
+      save: true
+      provider: "{{ provider }}"
+  - name: Disable the setup utility
+    bigip_sys_global:
+      gui_setup: no
+      provider: "{{ provider }}"
+
+
+
+
+

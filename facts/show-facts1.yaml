@@ -1,0 +1,7 @@
+---
+- name: Play 1 - gather and show facts for the hosts in the inventory file
+  hosts: all
+  tasks:
+  - name: Task 1 - show IP address and mask
+    debug:
+      var: ansible_default_ipv4

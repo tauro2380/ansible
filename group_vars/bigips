@@ -1,0 +1,9 @@
+---
+ansible_python_interpreter: python 
+ansible_ssh_user: root 
+ansible_ssh_pass: f5trn1
+admin_user: admin
+admin_password: f5trn1
+admin_default_password: admin
+ext_mask: 255.255.0.0
+int_mask: 255.255.0.0

@@ -1,0 +1,11 @@
+---
+- name: Play 1 - gather and show facts for the hosts in the inventory file
+  hosts: all
+  tasks:
+  - name: Task 1 - show IP address and mask
+    debug:
+      msg: "{{ ansible_default_ipv4.address  }}/{{ ansible_default_ipv4.netmask }}"
+  - name: Task 2 - Show mount facts
+    debug:
+      var: ansible_devices.sda.size
+

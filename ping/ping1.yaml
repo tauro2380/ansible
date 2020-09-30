@@ -1,0 +1,6 @@
+---
+- name: Play 1 - ping all hosts
+  hosts: all
+  tasks:
+  - name: Task 1 - ping each host
+    ping:

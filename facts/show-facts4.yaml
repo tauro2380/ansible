@@ -1,0 +1,20 @@
+---
+- name: Play 1 - gather and show facts for the hosts in the inventory file
+  hosts: all
+  gather_facts: false
+  tasks:
+  - name: Task 1 -  create new facts directory
+    file:
+      path: ~/.ansible/facts/
+      state: directory
+  - name: Task 2 - copy custom fact to remote host
+    copy:
+      src: ~/facts/get_version.fact
+      dest: ~/.ansible/facts/
+      mode: 0755
+  - name: Task 3 - load facts
+    setup:
+      fact_path: ~/.ansible/facts/
+  - name: task 4 - show version
+    debug:
+      var: ansible_local.get_version.version
