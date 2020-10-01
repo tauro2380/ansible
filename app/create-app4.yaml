@@ -1,0 +1,49 @@
+---
+- name: Create BIGIP App
+  hosts: bigip1a
+  gather_facts: false
+  connection: local
+  vars:
+    provider:
+      server: "{{ inventory_hostname }}"
+      user: "{{ admin_user }}"
+      password: "{{ admin_password }}"
+      validate_certs: false
+
+  tasks:
+  - name: Create Monitor
+    bigip_monitor_http:
+      name: app.mon
+      send: GET /
+      receive: If you see this
+      provider: "{{ provider }}"
+
+  - name: Create Pool
+    bigip_pool: 
+      name: app.pool
+      monitors: app.mon
+      provider: "{{ provider }}"
+
+  - name: Add pool meember
+    bigip_pool_member:
+      pool: app.pool
+      host: "{{ item }}"
+      port: 80
+      provider: "{{ provider }}"
+    with_items:
+    - 10.10.1.1
+    - 10.10.1.2
+    - 10.10.1.3
+
+  - name: Create Virtual Server
+    bigip_virtual_server:
+      name: app.vs
+      destination: 10.10.1.101
+      port: "443"
+      pool: app.pool
+      profiles:
+      - http
+      - name: clientssl
+        context: client-side
+      snat: automap
+      provider: "{{ provider }}"

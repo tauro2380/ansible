@@ -1,0 +1,19 @@
+---
+- name: Create BIGIP App
+  hosts: bigip1a
+  gather_facts: false
+  connection: local
+  vars:
+    provider:
+      server: "{{ inventory_hostname }}"
+      user: "{{ admin_user }}"
+      password: "{{ admin_password }}"
+      validate_certs: false
+
+  tasks:
+  - name: Create Monitor
+    bigip_monitor_http:
+      name: app.mon
+      send: GET /
+      receive: If you see this
+      provider: "{{ provider }}"
